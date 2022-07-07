@@ -45,7 +45,7 @@ Install as `.github/workflows/dev-docs-builder.yml` in the content source.
 name: Elastic dev docs
 
 on:
-  pull_request:
+  pull_request_target:
     paths:
     # Change docs dir to your repos docs dir
       - 'docs/**.mdx'
@@ -91,7 +91,7 @@ Install as `.github/workflows/co-docs-builder.yml` in content source.
 name: Elastic docs
 
 on:
-  pull_request:
+  pull_request_target:
     paths:
     # Change docs dir to your repos docs dir
       - 'docs/**.mdx'
