@@ -43,7 +43,7 @@ jobs:
         with:
           path: 'tmp'
           fetch-depth: 2
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          ref: refs/pull/${{ github.event.number }}/head
           persist-credentials: false
 
       - name: Prepare content for deploy
@@ -120,7 +120,7 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-              core.setFailed('Deploy failed, visit #next-docs for help')
+              core.setFailed('Deploy failed, please run the build locally to determine issue.')
 
       - name: Portal for deploy
         if: github.event.pull_request.merged == true
