@@ -69,10 +69,6 @@ jobs:
           path: ${{ github.workspace }}/${{ inputs.prebuild }}
           persist-credentials: false
 
-      - name: Temp sources override
-        shell: bash
-        run: cp -f ${{ github.workspace }}/wordlake/.scaffold/sources.json ${{ github.workspace }}/docs.elastic.co/.
-
       - name: Show current workspace
         shell: bash
         run: ls -lat 
