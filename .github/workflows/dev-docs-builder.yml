@@ -70,7 +70,7 @@ jobs:
 
       - name: Temp sources override
         shell: bash
-        run: cp -f ${{ github.workspace }}/wordlake-dev/.scaffold/sources.json ${{ github.workspace }}/docs.elastic.dev/.
+        run: cp -f ${{ github.workspace }}/wordlake-dev/.scaffold/content.js ${{ github.workspace }}/docs.elastic.dev/config/.
 
       - name: Show workspace
         shell: bash
