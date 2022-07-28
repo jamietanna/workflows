@@ -67,11 +67,10 @@ jobs:
           repository: elastic/${{ inputs.prebuild }}
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
           path: ${{ github.workspace }}/${{ inputs.prebuild }}
-          persist-credentials: false
 
       - name: Temp sources override
         shell: bash
-        run: cp -f ${{ github.workspace }}/wordlake-dev/.scaffold/sources.json ${{ github.workspace }}/docs.elastic.dev/.
+        run: cp -f ${{ github.workspace }}/wordlake-dev/.scaffold/content.js ${{ github.workspace }}/docs.elastic.dev/config/.
 
       - name: Portal
         shell: bash
