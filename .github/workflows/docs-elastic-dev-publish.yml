@@ -67,6 +67,7 @@ jobs:
           repository: elastic/${{ inputs.prebuild }}
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
           path: ${{ github.workspace }}/${{ inputs.prebuild }}
+          persist-credentials: false
 
       - name: Temp sources override
         shell: bash

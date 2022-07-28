@@ -38,7 +38,7 @@ jobs:
           persist-credentials: false
 
       - name: Checkout branch into tmp
-        if: github.event.pull_request.merged == false
+        if: github.event.action != 'closed' && github.event.pull_request.merged != true
         uses: actions/checkout@v3.0.1
         with:
           path: 'tmp'
