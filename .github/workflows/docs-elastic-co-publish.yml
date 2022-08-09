@@ -114,7 +114,7 @@ jobs:
               core.setFailed('Deploy failed, help available in #next-docs')
 
       - name: Portal for deploy
-        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref != github.event.pull_request.base.repo.default_branch
+        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
         shell: bash
         run: |
           cd ${{ github.workspace }}/${{ inputs.prebuild }}
