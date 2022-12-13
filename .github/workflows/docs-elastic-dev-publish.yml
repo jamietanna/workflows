@@ -107,7 +107,7 @@ jobs:
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         id: vercel-deploy
         uses: elastic/builder@v21.5.0
-        continue-on-error: true
+        continue-on-error: false
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
@@ -116,14 +116,6 @@ jobs:
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: false # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
-
-      - name: Declare Vercel failure
-        if: github.event.pull_request.merged != true && steps.vercel-deploy.outcome != 'success' && steps.vercel-deploy.outcome != 'skipped'  
-        id: vercel-failure
-        uses: actions/github-script@v3
-        with:
-          script: |
-              core.setFailed('Deploy failed, please run the build locally to determine issue.')
 
       - name: Portal for deploy
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
