@@ -107,7 +107,7 @@ jobs:
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         id: vercel-deploy
         uses: elastic/builder@v21.5.0
-        continue-on-error: true
+        continue-on-error: false
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
