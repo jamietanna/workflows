@@ -115,7 +115,7 @@ jobs:
           vercel-project-name: ${{ inputs.project-name }}
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
-          github-comment: false # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
+          github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
       - name: Portal for deploy
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
