@@ -71,6 +71,10 @@ jobs:
       - name: Show current workspace
         shell: bash
         run: ls -lat 
+       
+      - name: Temp sources override
+        shell: bash
+        run: cp -f ${{ github.workspace }}/wordlake/.scaffold/content.js ${{ github.workspace }}/docs.elastic.co/config/. 
 
       - name: Portal
         shell: bash
