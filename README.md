@@ -42,7 +42,7 @@ Install as `.github/workflows/dev-docs-builder.yml` in the content source.
 :wave: Provide the content source access to the Vercel_ tokens.
 
 ```yml
-name: Elastic dev docs
+name: Dev Docs
 
 on:
   pull_request_target:
@@ -61,6 +61,7 @@ on:
 
 jobs:
   publish:
+    name: Vercel Build Check
     uses: elastic/workflows/.github/workflows/docs-elastic-dev-publish.yml@main
     with:
       # Refers to Vercel project
