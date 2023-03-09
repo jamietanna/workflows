@@ -48,15 +48,15 @@ on:
   pull_request_target:
     paths:
     # Change docs dir to your repos docs dir
-      - 'docs/**.mdx'
-      - 'docs/**.docnav.json'
-      - 'docs/**.docapi.json'
-      - 'docs/**.devdocs.json'
-      - 'docs/**.jpg'
-      - 'docs/**.jpeg'
-      - 'docs/**.png'
-      - 'docs/**.svg'
-      - 'docs/**.gif'
+      - '**.mdx'
+      - '**.docnav.json'
+      - '**.docapi.json'
+      - '**.devdocs.json'
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.png'
+      - '**.svg'
+      - '**.gif'
     types: [opened, closed, synchronize]
 
 jobs:
@@ -95,15 +95,15 @@ on:
   pull_request_target:
     paths:
     # Change docs dir to your repos docs dir
-      - 'docs/**.mdx'
-      - 'docs/**.docnav.json'
-      - 'docs/**.docapi.json'
-      - 'docs/**.devdocs.json'
-      - 'docs/**.jpg'
-      - 'docs/**.jpeg'
-      - 'docs/**.svg'
-      - 'docs/**.png'
-      - 'docs/**.gif'
+      - '**.mdx'
+      - '**.docnav.json'
+      - '**.docapi.json'
+      - '**.devdocs.json'
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.svg'
+      - '**.png'
+      - '**.gif'
     types: [closed, opened, synchronize]
 
 jobs:
