@@ -1,0 +1,130 @@
+name: builder
+
+on:
+  workflow_call:
+    inputs:
+      prebuild: 
+        type: string
+        required: true
+      project-name: 
+        type: string
+        required: true
+      repo: 
+        type: string
+        required: true
+    secrets:
+      VERCEL_GITHUB_TOKEN:
+        description: 'A GitHub PAT with repo scope'
+        required: true
+      VERCEL_TOKEN:
+        description: 'Vercel API token, account level'
+        required: true
+      VERCEL_ORG_ID:
+        description: 'Vercel ORG token, org level'
+        required: true
+      VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
+        description: 'Vercel PROJECT token, project level'
+        required: true
+
+jobs:
+  preview:
+    name: doc builder
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Setup workspace
+        uses: actions/checkout@v3.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout branch into temp
+        if: github.event.action != 'closed' && github.event.pull_request.merged != true
+        uses: actions/checkout@v3.0.1
+        with:
+          path: 'tmp'
+          fetch-depth: 2
+          ref: refs/pull/${{ github.event.number }}/head
+          persist-credentials: false
+
+      - name: Prepare content for deploy
+        if: ${{ github.event.pull_request.merged }}
+        uses: actions/checkout@v3.0.1
+        with:
+          path: 'tmp'
+          persist-credentials: false
+
+      - name: Checkout dev doc docsmobile app
+        uses: actions/checkout@v3.0.1
+        with:
+          repository: elastic/${{ inputs.repo }}
+          token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/${{ inputs.repo }}
+          persist-credentials: false
+
+      - name: Checkout Wordlake-staging
+        uses: actions/checkout@v3.0.1
+        with:
+          repository: elastic/${{ inputs.prebuild }}
+          token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/${{ inputs.prebuild }}
+
+      - name: Temp sources override
+        shell: bash
+        run: cp -f ${{ github.workspace }}/wordlake-staging/.scaffold/content.js ${{ github.workspace }}/docsstaging.elastic.dev/config/.
+
+      - name: Portal
+        shell: bash
+        run: |
+          mkdir -p ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}
+          rm -rf ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/*
+          rsync --ignore-missing-args -zavpm --no-l \
+          --exclude='cats.mdx' \
+          --exclude='infrastructure/ansible/systests/*' \
+          --include='*.docnav.json' \
+          --include='*.apidocs.json' \
+          --include='*.mdx' \
+          --include='*.png' \
+          --include='*.gif' \
+          --include='*.jpg' \
+          --include='*.svg' \
+          --include='*.jpeg' \
+          --include='*.webp' \
+          --include='*.devdocs.json' \
+          --include='*/' \
+          --exclude='*' \
+          ${{ github.workspace }}/tmp/ \
+          ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/
+
+      - name: Tidy before Vercel CLI run
+        if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
+        shell: bash
+        run: |
+            mkdir ${{ github.workspace }}/build/ 
+            mv ${{ github.workspace }}/${{ inputs.prebuild }} ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/${{ inputs.repo }} ${{ github.workspace }}/build/
+
+      - name: Generate preview
+        if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
+        id: vercel-deploy
+        uses: elastic/builder@v21.5.0
+        continue-on-error: false
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
+          vercel-project-name: ${{ inputs.project-name }}
+          working-directory: ${{ github.workspace }}/build/
+          github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
+          github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
+
+      - name: Portal for deploy
+        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
+        shell: bash
+        run: |
+          cd ${{ github.workspace }}/${{ inputs.prebuild }}
+          git config user.name count-docula
+          git config user.email github-actions@github.com
+          git pull
+          git add .
+          git commit -m "New content from https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/${{ inputs.prebuild }}
