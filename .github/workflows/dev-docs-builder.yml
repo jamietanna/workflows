@@ -1,3 +1,4 @@
+# This file is not used anymore and is left for reference. 
 name: Elastic Dev Docs Builder
 on:
   workflow_call:
