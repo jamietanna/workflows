@@ -122,3 +122,46 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID_DOCS_CO: ${{ secrets.VERCEL_PROJECT_ID_DOCS_CO }}
 ```
+
+
+### Staging docs builder, calling workflow
+
+Change values as needed.
+
+Install as `.github/workflows/staging-docs-builder.yml` in content source.
+
+:wave: Provide the content source access to the Vercel_ tokens.
+
+```yml
+name: Elastic docs
+
+on:
+  pull_request_target:
+    paths:
+    # Change docs dir to your repos docs dir
+      - '**.mdx'
+      - '**.docnav.json'
+      - '**.docapi.json'
+      - '**.devdocs.json'
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.svg'
+      - '**.png'
+      - '**.gif'
+    types: [closed, opened, synchronize]
+
+jobs:
+  publish:
+    uses: elastic/workflows/.github/workflows/docs-elastic-staging-publish.yml@main
+    with:
+      # Refers to Vercel project
+      project-name: docsstaging-elastic-dev
+      # Which prebuild step (dev or not)
+      prebuild: wordlake-staging
+      # Docsmobile project dir
+      repo: docsstaging.elastic.dev
+    secrets:
+      VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID_DOCS_CO: ${{ secrets.VERCEL_PROJECT_ID_DOCS_STAGING }}
