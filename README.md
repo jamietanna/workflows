@@ -128,7 +128,6 @@ jobs:
 
 Change values as needed.
 
-
 Install as `.github/workflows/staging-docs-builder.yml` in content source.
 
 :wave: Provide the content source access to the Vercel_ tokens.
