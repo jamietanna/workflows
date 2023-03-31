@@ -128,7 +128,6 @@ jobs:
 
 Change values as needed.
 
-For example, if you do not have a docs dir, use the correct dir or no dir instead.
 
 Install as `.github/workflows/staging-docs-builder.yml` in content source.
 
