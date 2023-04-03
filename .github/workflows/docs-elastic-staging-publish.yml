@@ -8,7 +8,6 @@ on:
         required: true
       project-name: 
         type: string
-        required: true
       repo: 
         type: string
         required: true
@@ -24,7 +23,6 @@ on:
         required: true
       VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
         description: 'Vercel PROJECT token, project level'
-        required: true
 
 jobs:
   preview:
@@ -112,7 +110,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
-          vercel-project-name: ${{ inputs.project-name }}
+          vercel-project-name: 'docsstaging-preview-docs'
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
