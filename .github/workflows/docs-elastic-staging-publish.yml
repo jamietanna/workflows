@@ -99,7 +99,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
-          vercel-project-name: 'docs-staging-preview-docs'
+          vercel-project-name: docs-staging-preview-docs
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
