@@ -3,14 +3,6 @@ name: builder
 on:
   workflow_call:
     inputs:
-      prebuild: 
-        type: string
-        required: true
-      project-name: 
-        type: string
-      repo: 
-        type: string
-        required: true
     secrets:
       VERCEL_GITHUB_TOKEN:
         description: 'A GitHub PAT with repo scope'
@@ -21,8 +13,6 @@ on:
       VERCEL_ORG_ID:
         description: 'Vercel ORG token, org level'
         required: true
-      VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
-        description: 'Vercel PROJECT token, project level'
 
 jobs:
   preview:
@@ -54,17 +44,17 @@ jobs:
       - name: Checkout staging site repo
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.repo }}
+          repository: elastic/docs-staging.elastic.dev
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.repo }}
+          path: ${{ github.workspace }}/docs-staging.elastic.dev
           persist-credentials: false
 
       - name: Checkout Wordlake-staging
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.prebuild }}
+          repository: elastic/wordlake-staging
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.prebuild }}
+          path: ${{ github.workspace }}/wordlake-staging
 
       - name: Temp sources override
         shell: bash
@@ -73,8 +63,8 @@ jobs:
       - name: Portal
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}
-          rm -rf ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/*
+          mkdir -p ${{ github.workspace }}/wordlake-staging/${{ github.event.repository.name }}
+          rm -rf ${{ github.workspace }}/wordlake-staging/${{ github.event.repository.name }}/*
           rsync --ignore-missing-args -zavpm --no-l \
           --exclude='cats.mdx' \
           --exclude='infrastructure/ansible/systests/*' \
@@ -91,15 +81,15 @@ jobs:
           --include='*/' \
           --exclude='*' \
           ${{ github.workspace }}/tmp/ \
-          ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/
+          ${{ github.workspace }}/wordlake-staging/${{ github.event.repository.name }}/
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         shell: bash
         run: |
             mkdir ${{ github.workspace }}/build/ 
-            mv ${{ github.workspace }}/${{ inputs.prebuild }} ${{ github.workspace }}/build/
-            mv ${{ github.workspace }}/${{ inputs.repo }} ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/wordlake-staging ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/docs-staging.elastic.dev ${{ github.workspace }}/build/
 
       - name: Generate preview
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
@@ -119,10 +109,10 @@ jobs:
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
         shell: bash
         run: |
-          cd ${{ github.workspace }}/${{ inputs.prebuild }}
+          cd ${{ github.workspace }}/wordlake-staging
           git config user.name count-docula
           git config user.email github-actions@github.com
           git pull
           git add .
           git commit -m "New content from https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/${{ inputs.prebuild }}
+          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/wordlake-staging
