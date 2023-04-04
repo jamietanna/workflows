@@ -2,7 +2,6 @@ name: builder
 
 on:
   workflow_call:
-    inputs:
     secrets:
       VERCEL_GITHUB_TOKEN:
         description: 'A GitHub PAT with repo scope'
