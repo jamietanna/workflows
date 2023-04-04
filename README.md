@@ -155,11 +155,11 @@ jobs:
     uses: elastic/workflows/.github/workflows/docs-elastic-staging-publish.yml@main
     with:
       # Refers to Vercel project
-      project-name: docsstaging-elastic-dev
+      project-name: docs-staging-elastic-dev
       # Which prebuild step (dev or not)
       prebuild: wordlake-staging
       # Docsmobile project dir
-      repo: docsstaging.elastic.dev
+      repo: docs-staging.elastic.dev
     secrets:
       VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
