@@ -12,6 +12,9 @@ on:
       VERCEL_ORG_ID:
         description: 'Vercel ORG token, org level'
         required: true
+      VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
+        description: 'Vercel PROJECT token, project level'
+        required: true        
 
 jobs:
   preview:
