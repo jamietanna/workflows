@@ -73,6 +73,7 @@ jobs:
         run: cp -f ${{ github.workspace }}/wordlake-dev/.scaffold/content.js ${{ github.workspace }}/docs.elastic.dev/config/.
 
       - name: Portal
+        if: github.event.action != 'closed' || github.event.pull_request.merged == true
         shell: bash
         run: |
           mkdir -p ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}
