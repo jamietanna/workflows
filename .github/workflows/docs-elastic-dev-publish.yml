@@ -5,13 +5,10 @@ on:
     inputs:
       prebuild: 
         type: string
-        required: true
       project-name: 
         type: string
-        required: true
       repo: 
         type: string
-        required: true
     secrets:
       VERCEL_GITHUB_TOKEN:
         description: 'A GitHub PAT with repo scope'
@@ -23,8 +20,9 @@ on:
         description: 'Vercel ORG token, org level'
         required: true
       VERCEL_PROJECT_ID_DOCS_DEV:
-        description: 'Vercel PROJECT token, project level'
-        required: true
+        description: 'Vercel PROJECT token, project level (deprecated)'
+      VERCEL_PROJECT_ID_DEV_PREVIEW_DOCS:
+        description: 'Vercel PROJECT token, project level'        
 
 jobs:
   preview:
@@ -56,17 +54,17 @@ jobs:
       - name: Checkout dev doc docsmobile app
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.repo }}
+          repository: elastic/docs.elastic.dev
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.repo }}
+          path: ${{ github.workspace }}/docs.elastic.dev
           persist-credentials: false
 
       - name: Checkout Wordlake
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.prebuild }}
+          repository: elastic/wordlake-dev
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.prebuild }}
+          path: ${{ github.workspace }}/wordlake-dev
 
       - name: Temp sources override
         shell: bash
@@ -76,8 +74,8 @@ jobs:
         if: github.event.action != 'closed' || github.event.pull_request.merged == true
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}
-          rm -rf ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/*
+          mkdir -p ${{ github.workspace }}/wordlake-dev/${{ github.event.repository.name }}
+          rm -rf ${{ github.workspace }}/wordlake-dev/${{ github.event.repository.name }}/*
           rsync --ignore-missing-args -zavpm --no-l \
           --exclude='cats.mdx' \
           --exclude='infrastructure/ansible/systests/*' \
@@ -94,15 +92,15 @@ jobs:
           --include='*/' \
           --exclude='*' \
           ${{ github.workspace }}/tmp/ \
-          ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/
+          ${{ github.workspace }}/wordlake-dev/${{ github.event.repository.name }}/
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         shell: bash
         run: |
             mkdir ${{ github.workspace }}/build/ 
-            mv ${{ github.workspace }}/${{ inputs.prebuild }} ${{ github.workspace }}/build/
-            mv ${{ github.workspace }}/${{ inputs.repo }} ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/wordlake-dev ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/docs.elastic.dev ${{ github.workspace }}/build/
 
       - name: Generate preview
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
@@ -112,8 +110,8 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DOCS_DEV }} #Required
-          vercel-project-name: ${{ inputs.project-name }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DEV_PREVIEW_DOCS }} #Required
+          vercel-project-name: docs-elastic-dev # To be changed after renaming in Vercel
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
