@@ -5,13 +5,10 @@ on:
     inputs:
       prebuild: 
         type: string
-        required: true
       project-name: 
         type: string
-        required: true
       repo: 
         type: string
-        required: true
     secrets:
       VERCEL_GITHUB_TOKEN:
         description: 'A GitHub PAT with repo scope'
@@ -56,17 +53,17 @@ jobs:
       - name: Checkout essential repos
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.repo }}
+          repository: elastic/docs.elastic.co
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.repo }}
+          path: ${{ github.workspace }}/docs.elastic.co
           persist-credentials: false
 
       - name: Checkout Wordlake
         uses: actions/checkout@v3.0.1
         with:
-          repository: elastic/${{ inputs.prebuild }}
+          repository: elastic/wordlake
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/${{ inputs.prebuild }}
+          path: ${{ github.workspace }}/wordlake
 
       - name: Show current workspace
         shell: bash
@@ -80,8 +77,8 @@ jobs:
         if: github.event.action != 'closed' || github.event.pull_request.merged == true
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}
-          rm -rf ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/*
+          mkdir -p ${{ github.workspace }}/wordlake/${{ github.event.repository.name }}
+          rm -rf ${{ github.workspace }}/wordlake/${{ github.event.repository.name }}/*
           rsync --ignore-missing-args -zavpm --no-l \
           --include='*.docnav.json' \
           --include='*.apidocs.json' \
@@ -95,7 +92,7 @@ jobs:
           --include='*/' \
           --exclude='*' \
           ${{ github.workspace }}/tmp/ \
-          ${{ github.workspace }}/${{ inputs.prebuild }}/${{ github.event.repository.name }}/
+          ${{ github.workspace }}/wordlake/${{ github.event.repository.name }}/
 
       - name: Generate preview
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
@@ -106,7 +103,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DOCS_CO }} #Required
-          vercel-project-name: ${{ inputs.project-name }}
+          vercel-project-name: co-preview-docs
           working-directory: ./
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
@@ -115,10 +112,10 @@ jobs:
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
         shell: bash
         run: |
-          cd ${{ github.workspace }}/${{ inputs.prebuild }}
+          cd ${{ github.workspace }}/wordlake
           git config user.name count-docula
           git config user.email github-actions@github.com
           git pull
           git add .
           git commit -m "New content from https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/${{ inputs.prebuild }}
+          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/wordlake
