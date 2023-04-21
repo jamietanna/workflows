@@ -39,8 +39,6 @@ We also use a different set of secrets that we have to provide the content sourc
 
 Change values as needed.
 
-For example, if you do not have a docs dir, use the correct dir or no dir instead.
-
 Install as `.github/workflows/dev-docs-builder.yml` in the content source.
 
 :wave: Provide the content source access to the Vercel_ tokens.
@@ -78,8 +76,6 @@ jobs:
 ### Public docs builder, calling workflow
 
 Change values as needed.
-
-For example, if you do not have a docs dir, use the correct dir or no dir instead.
 
 Install as `.github/workflows/co-docs-builder.yml` in content source.
 
