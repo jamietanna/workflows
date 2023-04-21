@@ -51,7 +51,7 @@ name: Dev Docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir (optional)
+    # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -91,7 +91,7 @@ name: Elastic docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir (optional)
+    # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -122,7 +122,7 @@ name: Elastic docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir (optional)
+    # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -160,7 +160,7 @@ name: Elastic docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir (optional)
+    # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -190,7 +190,7 @@ name: Elastic docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir (optional)
+    # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
