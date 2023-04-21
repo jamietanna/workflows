@@ -48,8 +48,11 @@ name: Dev Docs
 
 on:
   pull_request_target:
+    # The paths property can be omitted entirely if the repo is mainly used for docs. Leaving it in can result in builds that 
+    # have branch protection checks in place lose the ability to merge because the workflow is not starting. If this property 
+    # is included, please ensure that branch protection checks are disabled for the repo. 
     paths:
-    # Preface with your docs dir if you need further specificity (optional)
+      # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -86,8 +89,11 @@ name: Elastic docs
 
 on:
   pull_request_target:
+    # The paths property can be omitted entirely if the repo is mainly used for docs. Leaving it in can result in builds that 
+    # have branch protection checks in place lose the ability to merge because the workflow is not starting. If this property 
+    # is included, please ensure that branch protection checks are disabled for the repo. 
     paths:
-    # Preface with your docs dir if you need further specificity (optional)
+      # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -117,8 +123,11 @@ name: Elastic docs
 
 on:
   pull_request_target:
+    # The paths property can be omitted entirely if the repo is mainly used for docs. Leaving it in can result in builds that 
+    # have branch protection checks in place lose the ability to merge because the workflow is not starting. If this property 
+    # is included, please ensure that branch protection checks are disabled for the repo. 
     paths:
-    # Preface with your docs dir if you need further specificity (optional)
+      # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -155,8 +164,11 @@ name: Elastic docs
 
 on:
   pull_request_target:
+    # The paths property can be omitted entirely if the repo is mainly used for docs. Leaving it in can result in builds that 
+    # have branch protection checks in place lose the ability to merge because the workflow is not starting. If this property 
+    # is included, please ensure that branch protection checks are disabled for the repo. 
     paths:
-    # Preface with your docs dir if you need further specificity (optional)
+      # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
@@ -185,8 +197,11 @@ name: Elastic docs
 
 on:
   pull_request_target:
+    # The paths property can be omitted entirely if the repo is mainly used for docs. Leaving it in can result in builds that 
+    # have branch protection checks in place lose the ability to merge because the workflow is not starting. If this property 
+    # is included, please ensure that branch protection checks are disabled for the repo. 
     paths:
-    # Preface with your docs dir if you need further specificity (optional)
+      # Preface with your docs dir if you need further specificity (optional)
       - '**.mdx'
       - '**.docnav.json'
       - '**.docapi.json'
