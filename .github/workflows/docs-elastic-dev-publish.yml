@@ -110,8 +110,8 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DEV_PREVIEW_DOCS || secrets.VERCEL_PROJECT_ID_DOCS_DEV }} #Required
-          vercel-project-name: ${{ inputs.project-name || 'dev-preview-docs' }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DOCS_DEV || secrets.VERCEL_PROJECT_ID_DEV_PREVIEW_DOCS }} #Fallback in place for migration
+          vercel-project-name: ${{ inputs.project-name || 'dev-preview-docs' }} #Fallback in place for migration
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
