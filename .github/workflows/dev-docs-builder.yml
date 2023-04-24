@@ -1,5 +1,5 @@
 # This file is not used anymore and is left for reference. 
-name: Elastic Dev Docs Builder
+name: Elastic Dev Docs Builder (Deprecated)
 on:
   workflow_call:
     secrets:
