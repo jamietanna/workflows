@@ -111,7 +111,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DEV_PREVIEW_DOCS || secrets.VERCEL_PROJECT_ID_DOCS_DEV }} #Required
-          vercel-project-name: docs-elastic-dev # To be changed after renaming in Vercel
+          vercel-project-name: ${{ inputs.project-name || 'dev-preview-docs' }}
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
