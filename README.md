@@ -108,7 +108,6 @@ on:
 jobs:
   publish:
     uses: elastic/workflows/.github/workflows/docs-elastic-co-publish.yml@main
-    with:
     secrets:
       VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
