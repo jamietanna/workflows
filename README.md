@@ -68,6 +68,13 @@ jobs:
   publish:
     name: Vercel Build Check
     uses: elastic/workflows/.github/workflows/docs-elastic-dev-publish.yml@main
+    with:
+      # Refers to Vercel project
+      project-name: docs-elastic-dev
+      # Which prebuild step (dev or not)
+      prebuild: wordlake-dev
+      # Docsmobile project dir
+      repo: docs.elastic.dev   
     secrets:
       VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
