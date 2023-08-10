@@ -3,8 +3,6 @@ name: builder
 on:
   workflow_call:
     inputs:
-      prebuild: 
-        type: string
       project-name: 
         type: string
       repo: 
@@ -120,10 +118,10 @@ jobs:
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
         shell: bash
         run: |
-          cd ${{ github.workspace }}/${{ inputs.prebuild }}
+          cd ${{ github.workspace }}/wordlake-dev
           git config user.name count-docula
           git config user.email github-actions@github.com
           git pull
           git add .
           git commit -m "New content from https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/${{ inputs.prebuild }}
+          git push https://${{ secrets.VERCEL_GITHUB_TOKEN }}@github.com/elastic/wordlake-dev
