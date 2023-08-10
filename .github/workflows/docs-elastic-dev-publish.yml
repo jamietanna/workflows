@@ -3,6 +3,8 @@ name: builder
 on:
   workflow_call:
     inputs:
+      prebuild: 
+        type: string    
       project-name: 
         type: string
       repo: 
