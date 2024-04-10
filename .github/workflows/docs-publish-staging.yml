@@ -12,7 +12,7 @@ on:
       VERCEL_ORG_ID:
         description: 'Vercel ORG token, org level'
         required: true
-      VERCEL_PROJECT_ID_DOCS_CO:
+      VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
         description: 'Vercel PROJECT token, project level'
         required: true
 
@@ -150,7 +150,7 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DOCS_CO }} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
           vercel-project-name: co-preview-docs
           working-directory: ${{ github.workspace }}/build/
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional

@@ -12,9 +12,9 @@ on:
       VERCEL_ORG_ID:
         description: 'Vercel ORG token, org level'
         required: true
-      VERCEL_PROJECT_ID_DOCS_CO:
+      VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS:
         description: 'Vercel PROJECT token, project level'
-        required: true        
+        required: true
 
 jobs:
   preview:
@@ -46,9 +46,9 @@ jobs:
       - name: Checkout essential repos
         uses: actions/checkout@v3
         with:
-          repository: elastic/docs.elastic.co
+          repository: elastic/docs-staging.elastic.dev
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/docs.elastic.co
+          path: ${{ github.workspace }}/docs-staging.elastic.dev
           persist-credentials: false
 
       - name: Checkout Wordlake-staging
@@ -60,7 +60,7 @@ jobs:
 
       - name: Temp sources override
         shell: bash
-        run: cp -f ${{ github.workspace }}/wordlake-staging/.scaffold/content.js ${{ github.workspace }}/docs.elastic.co/config/.
+        run: cp -f ${{ github.workspace }}/wordlake-staging/.scaffold/content.js ${{ github.workspace }}/docs-staging.elastic.dev/config/.
 
       - name: Portal
         shell: bash
@@ -89,9 +89,9 @@ jobs:
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         shell: bash
         run: |
-            mkdir ${{ github.workspace }}/build/ 
+            mkdir ${{ github.workspace }}/build/
             mv ${{ github.workspace }}/wordlake-staging ${{ github.workspace }}/build/
-            mv ${{ github.workspace }}/docs.elastic.co ${{ github.workspace }}/build/
+            mv ${{ github.workspace }}/docs-staging.elastic.dev ${{ github.workspace }}/build/
 
       - name: Generate preview
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
@@ -101,10 +101,10 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DOCS_CO }} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
           vercel-project-name: co-preview-docs
           working-directory: ${{ github.workspace }}/build/
-          github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional 
+          github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
           github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
       - name: Portal for deploy
