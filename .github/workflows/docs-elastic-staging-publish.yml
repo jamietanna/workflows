@@ -96,16 +96,14 @@ jobs:
           repository: elastic/workflows
           path: ./workflows
 
-      - name: Show workspace
-        shell: bash
-        run: ls -lat ./workflows/.github/actions/version-content
-
       - name: Install Versioning action dependencies
         run: npm install
         working-directory: ./workflows/.github/actions/version-content
 
-      - name: Versioning test
+      - name: Configure versioned worklake
         uses: ./workflows/.github/actions/version-content
+        with:
+          prebuild: wordlake-staging
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true

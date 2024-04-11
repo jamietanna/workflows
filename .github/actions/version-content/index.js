@@ -4,6 +4,7 @@ const core = require('@actions/core')
 try {
   console.log('••• Versioning')
   console.log('cwd', process.cwd())
+  console.log('prebuild', core.getInput('prebuild'))
 
 } catch (error) {
   core.setFailed(error.message)
