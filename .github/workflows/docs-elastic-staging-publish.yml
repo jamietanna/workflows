@@ -85,6 +85,13 @@ jobs:
           ${{ github.workspace }}/tmp/ \
           ${{ github.workspace }}/wordlake-staging/${{ github.event.repository.name }}/
 
+      - name: Versioning Test
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('••• Versioning')
+            console.log('cwd', process.cwd())
+
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
         shell: bash
