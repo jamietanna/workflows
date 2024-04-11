@@ -18,7 +18,7 @@ try {
     siteRepo,
     'docsmobile.config.js'
   )
-
+console.log('process.cwd()', process.cwd())
   if (fs.existsSync(configPath)) {
     config = require(configPath)
   } else {
