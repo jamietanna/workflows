@@ -38,4 +38,4 @@ runs:
         SITE_REPO: ${{ inputs.site-repo }}
         CONTENT_REPO: ${{ inputs.content-repo }}
         BASE_REF: ${{ inputs.base-ref }}
-        WORKSPACE: ${{ inouts.workspace }}
+        WORKSPACE: ${{ inputs.workspace }}
