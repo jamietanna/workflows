@@ -4,18 +4,21 @@ const fs = require('fs')
 const path = require('path')
 
 try {
-  const prebuild = core.getInput('prebuild')
-  const siteRepo = core.getInput('site-repo')
-  const contentRepo = core.getInput('content-repo')
-  const baseRef = core.getInput('base-ref')
-  const workspace = core.getInput('workspace')
-  console.log('prebuild', prebuild)
-  console.log('contentRepo', contentRepo)
-  console.log('baseRef', baseRef)
-  console.log('workspace', workspace)
+  const {
+    PREBUILD,
+    SITE_REPO,
+    CONTENT_REPO,
+    BASE_REF,
+    WORKSPACE
+  } = process.env
+
+  console.log('PREBUILD', PREBUILD)
+  console.log('CONTENT_REPO', CONTENT_REPO)
+  console.log('BASE_REF', BASE_REF)
+  console.log('WORKSPACE', WORKSPACE)
 
   let config = {}
-  const configPath = path.resolve(workspace, siteRepo, 'docsmobile.config.js')
+  const configPath = path.resolve(WORKSPACE, SITE_REPO, 'docsmobile.config.js')
 
   if (fs.existsSync(configPath)) {
     config = require(configPath)
@@ -27,7 +30,7 @@ try {
 
   const { sources, versioning } = config
 
-  const { directories } = sources.find(({ repo }) => repo === contentRepo)
+  const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
 
   directories.forEach(({ versioningSystem }) => {
     console.log('version', versioning[versioningSystem].all)
