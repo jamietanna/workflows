@@ -2,7 +2,10 @@ name: Versioning Action
 description: Sets up contents of sources in versioned format for pushing to wordlake
 inputs:
   prebuild:
-    description: 'The location of the wordlake (wordlake, wordlake-staging, wordlake-dev)'
+    description: 'The name of the wordlake (wordlake, wordlake-staging, wordlake-dev)'
+    required: true
+  site-repo:
+    description: 'The name of the site repo'
     required: true
 runs:
   using: 'node20'
