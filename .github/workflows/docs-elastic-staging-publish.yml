@@ -108,6 +108,7 @@ jobs:
         with:
           prebuild: ${{ env.PREBUILD }}
           site-repo: ${{ env.SITE_REPO }}
+          content-repo: ${{ github.repository }}
 
       # - name: Tidy before Vercel CLI run
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true

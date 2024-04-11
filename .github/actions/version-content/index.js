@@ -6,10 +6,9 @@ const path = require('path')
 try {
   const prebuild = core.getInput('prebuild')
   const siteRepo = core.getInput('site-repo')
-  console.log('••• Versioning')
-  console.log('cwd', process.cwd())
+  const contentRepo = core.getInput('content-repo')
   console.log('prebuild', prebuild)
-  console.log('siteRepo', siteRepo)
+  console.log('contentRepo', contentRepo)
 
   let config = {}
   const configPath = path.resolve(

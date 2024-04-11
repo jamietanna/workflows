@@ -7,6 +7,9 @@ inputs:
   site-repo:
     description: 'The name of the site repo'
     required: true
+  content-repo:
+    description: 'The name of the content repo'
+    required: true
 runs:
   using: 'node20'
   main: 'index.js'
