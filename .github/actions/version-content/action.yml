@@ -1,18 +1,43 @@
-name: Versioning Action
-description: Sets up contents of sources in versioned format for pushing to wordlake
+name: Configure Versioned Prebuild Repo
+description: Setup Node, checkout, and install dependencies before configuring the repo
 inputs:
   prebuild:
-    description: 'The name of the wordlake (wordlake, wordlake-staging, wordlake-dev)'
+    description: Prebuild configuration
     required: true
   site-repo:
-    description: 'The name of the site repo'
+    description: Site repository name
     required: true
   content-repo:
-    description: 'The name of the content repo'
+    description: Content repository name
     required: true
   base-ref:
-    description: 'The branch of the content repo'
+    description: Base reference for checkout
     required: true
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Checkout versioning action
+      uses: actions/checkout@v4
+      with:
+        repository: elastic/workflows
+        path: workflows
+
+    - name: Install versioning action dependencies
+      run: npm install
+      shell: bash
+      working-directory: workflows/.github/actions/version-content
+
+    - name: Execute versioning action
+      run: node ./index.js
+      shell: bash
+      working-directory: workflows/.github/actions/version-content
+      env:
+        PREBUILD: ${{ inputs.prebuild }}
+        SITE_REPO: ${{ inputs.site-repo }}
+        CONTENT_REPO: ${{ inputs.content-repo }}
+        BASE_REF: ${{ inputs.base-ref }}

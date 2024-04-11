@@ -85,7 +85,12 @@ jobs:
       #     ${{ github.workspace }}/${{ env.PREBUILD }}/${{ github.event.repository.name }}/
 
       - name: Insert PR changes into prebuild
-        uses: elastic/workflows/.github/workflows/configure-prebuild-repo.yml@main
+        uses: ./workflows/.github/actions/version-content
+        with:
+          prebuild: ${{ env.PREBUILD }}
+          site-repo: ${{ env.SITE_REPO }}
+          content-repo: ${{ github.repository }}
+          base-ref: ${{ github.base_ref }}
 
       # - name: Tidy before Vercel CLI run
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
