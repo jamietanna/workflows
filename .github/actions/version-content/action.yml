@@ -34,7 +34,8 @@ runs:
       shell: bash
       working-directory: workflows/.github/actions/version-content
       env:
-        PREBUILD: ${{ inputs.prebuild }}
-        SITE_REPO: ${{ inputs.site-repo }}
-        CONTENT_REPO: ${{ inputs.content-repo }}
-        BASE_REF: ${{ inputs.base-ref }}
+        prebuild: ${{ inputs.prebuild }}
+        site-repo: ${{ inputs.site-repo }}
+        content-repo: ${{ inputs.content-repo }}
+        base-ref: ${{ inputs.base-ref }}
+        workspace: ${{ github.workspace }}
