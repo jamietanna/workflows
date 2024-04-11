@@ -1,5 +1,9 @@
-name: 'Versioning Action'
-description: 'Outputs current working directory and a versioning message'
+name: Versioning Action
+description: Sets up contents of sources in versioned format for pushing to wordlake
+inputs:
+  prebuild:
+    description: 'The location of the wordlake (wordlake, wordlake-staging, wordlake-dev)'
+    required: true
 runs:
-  using: 'node12' # or the version of Node.js you prefer
+  using: 'node20'
   main: 'index.js'
