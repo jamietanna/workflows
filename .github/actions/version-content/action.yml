@@ -33,7 +33,7 @@ runs:
       run: node ./index.js
       shell: bash
       working-directory: workflows/.github/actions/version-content
-      env:
+      with:
         prebuild: ${{ inputs.prebuild }}
         site-repo: ${{ inputs.site-repo }}
         content-repo: ${{ inputs.content-repo }}
