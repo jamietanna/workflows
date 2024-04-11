@@ -22,6 +22,12 @@ try {
     console.log('config', Object.keys(config))
   }
 
+  const { sources, versioning } = config
+
+  const { directories } = sources.find(({ repo }) => repo === contentRepo)
+
+  console.log('directories', directories)
+
 } catch (error) {
   core.setFailed(error.message)
 }

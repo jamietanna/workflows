@@ -103,7 +103,7 @@ jobs:
         run: npm install
         working-directory: ./workflows/.github/actions/version-content
 
-      - name: Configure versioned worklake
+      - name: Configure versioned prebuild repo
         uses: ./workflows/.github/actions/version-content
         with:
           prebuild: ${{ env.PREBUILD }}
