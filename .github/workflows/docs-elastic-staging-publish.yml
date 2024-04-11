@@ -90,12 +90,18 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install custom action dependencies
+      - name: Checkout Versioning action
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/workflows
+          path: ./.github/actions/version-content
+
+      - name: Install Versioning action dependencies
         run: npm install
         working-directory: ./.github/actions/version-content
 
       - name: Versioning test
-        uses: ./.github/actions/version-content@main
+        uses: ./.github/actions/version-content
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
