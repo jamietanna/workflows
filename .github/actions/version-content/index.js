@@ -3,7 +3,7 @@ const core = require('@actions/core')
 
 try {
   const prebuild = core.getInput('prebuild')
-  const siteRepo = core.getInput('prebuild')
+  const siteRepo = core.getInput('site-repo')
   console.log('••• Versioning')
   console.log('cwd', process.cwd())
   console.log('prebuild', prebuild)
