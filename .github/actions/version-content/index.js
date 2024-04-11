@@ -7,8 +7,10 @@ try {
   const prebuild = core.getInput('prebuild')
   const siteRepo = core.getInput('site-repo')
   const contentRepo = core.getInput('content-repo')
+  const baseRef = core.getInput('base-ref')
   console.log('prebuild', prebuild)
   console.log('contentRepo', contentRepo)
+  console.log('baseRef', baseRef)
 
   let config = {}
   const configPath = path.resolve(
@@ -19,14 +21,20 @@ try {
 
   if (fs.existsSync(configPath)) {
     config = require(configPath)
-    console.log('config', Object.keys(config))
+  } else {
+    throw new Error(
+      'Unable to find docsmobile.config.js in the site repository.'
+    )
   }
 
   const { sources, versioning } = config
 
   const { directories } = sources.find(({ repo }) => repo === contentRepo)
 
-  console.log('directories', directories)
+  directories.forEach(({ versioningSystem }) => {
+    console.log('version', versioning[versioningSystem].all)
+  })
+
 
 } catch (error) {
   core.setFailed(error.message)
