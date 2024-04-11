@@ -94,18 +94,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: elastic/workflows
-          path: ./.github/actions/version-content
+          path: ./workflows
 
       - name: Show workspace
         shell: bash
-        run: ls -lat ./.github/actions/version-content
+        run: ls -lat ./workflows/.github/actions/version-content
 
       - name: Install Versioning action dependencies
         run: npm install
-        working-directory: ./.github/actions/version-content
+        working-directory: ./workflows/.github/actions/version-content
 
       - name: Versioning test
-        uses: ./.github/actions/version-content
+        uses: ./workflows/.github/actions/version-content
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
