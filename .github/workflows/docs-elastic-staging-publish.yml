@@ -96,6 +96,10 @@ jobs:
           repository: elastic/workflows
           path: ./.github/actions/version-content
 
+      - name: Show workspace
+        shell: bash
+        run: ls -lat ./.github/actions/version-content
+
       - name: Install Versioning action dependencies
         run: npm install
         working-directory: ./.github/actions/version-content
