@@ -97,6 +97,7 @@ jobs:
           site-repo: ${{ env.SITE_REPO }}
           content-repo: ${{ github.repository }}
           base-ref: ${{ github.base_ref }}
+          workspace: ${{ github.workspace }}
 
       # - name: Tidy before Vercel CLI run
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true

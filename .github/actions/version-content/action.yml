@@ -13,6 +13,9 @@ inputs:
   base-ref:
     description: Base reference for checkout
     required: true
+  workspace:
+    description: Path to current workspace
+    required: true
 runs:
   using: composite
   steps:
