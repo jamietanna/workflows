@@ -85,7 +85,7 @@ jobs:
       #     ${{ github.workspace }}/${{ env.PREBUILD }}/${{ github.event.repository.name }}/
 
       - name: Insert PR changes into prebuild
-        uses: ./workflows/.github/actions/version-content
+        uses: elastic/workflows/.github/actions/version-content
         with:
           prebuild: ${{ env.PREBUILD }}
           site-repo: ${{ env.SITE_REPO }}
