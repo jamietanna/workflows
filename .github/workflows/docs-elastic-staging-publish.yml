@@ -85,8 +85,17 @@ jobs:
           ${{ github.workspace }}/tmp/ \
           ${{ github.workspace }}/wordlake-staging/${{ github.event.repository.name }}/
 
-      - name: Versioning Test
-        uses: elastic/workflows/.github/actions/version-content@main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install custom action dependencies
+        run: npm install
+        working-directory: ./.github/actions/version-content
+
+      - name: Versioning test
+        uses: ./.github/actions/version-content@main
 
       - name: Tidy before Vercel CLI run
         if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
