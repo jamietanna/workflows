@@ -1,6 +1,5 @@
-name: Versioning Action
-uses: actions/github-script@v7
-with:
-  script: |
-    console.log('••• Versioning')
-    console.log('cwd', process.cwd())
+name: 'Versioning Action'
+description: 'Outputs current working directory and a versioning message'
+runs:
+  using: 'node12' # or the version of Node.js you prefer
+  main: 'index.js'
