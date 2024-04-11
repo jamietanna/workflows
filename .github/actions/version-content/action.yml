@@ -21,12 +21,6 @@ runs:
       with:
         node-version: 20
 
-    - name: Checkout versioning action
-      uses: actions/checkout@v4
-      with:
-        repository: elastic/workflows
-        path: workflows
-
     - name: Install versioning action dependencies
       run: npm install
       shell: bash

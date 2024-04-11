@@ -84,8 +84,14 @@ jobs:
       #     ${{ github.workspace }}/tmp/ \
       #     ${{ github.workspace }}/${{ env.PREBUILD }}/${{ github.event.repository.name }}/
 
+      - name: Checkout versioning action
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/workflows
+          path: workflows
+
       - name: Insert PR changes into prebuild
-        uses: elastic/workflows/.github/actions/version-content
+        uses: ./workflows/.github/actions/version-content
         with:
           prebuild: ${{ env.PREBUILD }}
           site-repo: ${{ env.SITE_REPO }}
