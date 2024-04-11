@@ -1,0 +1,39 @@
+name: configure prebuild repo
+
+on:
+  workflow_call:
+    inputs:
+      prebuild:
+        type: string
+      project-name:
+        type: string
+      repo:
+        type: string
+
+jobs:
+  configure:
+    name: Insert PR changes into prebuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Checkout versioning action
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/workflows
+          path: ./workflows
+
+      - name: Install versioning action dependencies
+        run: npm install
+        working-directory: ./workflows/.github/actions/version-content
+
+      - name: Configure versioned prebuild repo
+        uses: ./workflows/.github/actions/version-content
+        with:
+          prebuild: ${{ inputs.prebuild }}
+          site-repo: ${{ inputs.repo }}
+          content-repo: ${{ github.repository }}
+          base-ref: ${{ github.base_ref }}
