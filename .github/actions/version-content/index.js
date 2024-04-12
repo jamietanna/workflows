@@ -64,11 +64,12 @@ try {
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
     allVersions = versioning[versioningSystem].all
+    console.log('allVersions', allVersions)
+    core.setOutput('versions', JSON.stringify(allVersions))
     if (allVersions.includes(BASE_REF)) {
       await syncFiles(contentPath)
     }
   })
-  core.setOutput('versions', JSON.stringify(allVersions))
 } catch (error) {
   core.setFailed(error.message)
 }
