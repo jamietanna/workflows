@@ -24,7 +24,7 @@ outputs:
     value: ${{ steps.prebuild.outputs.versions }}
   versions2:
     description: "JSON string of all versions"
-    value: 'log'
+    value: ${{ steps.prebuild.id }}
 
 runs:
   using: composite
