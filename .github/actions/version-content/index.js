@@ -48,7 +48,6 @@ const syncFiles = async (contentPath) => {
 
 try {
   let config = {}
-  let allVersions = []
   const configPath = path.resolve(WORKSPACE, SITE_REPO, 'docsmobile.config.js')
 
   if (fs.existsSync(configPath)) {
@@ -63,10 +62,11 @@ try {
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
-    allVersions = versioning[versioningSystem].all
+    const allVersions = versioning[versioningSystem].all
+    // We need to expose this to the workflow so that the Portal for deploy can know which branches are versions
+    core.exportVariable('VERSIONS', allVersions)
+
     if (allVersions.includes(BASE_REF)) {
-      // We need to expose this to the workflow so that the Portal for deploy can know which branches are versions
-      core.exportVariable('VERSIONS', allVersions)
       await syncFiles(contentPath)
     }
   })
