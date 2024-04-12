@@ -1,5 +1,6 @@
 name: Configure Versioned Prebuild Repo
 description: Setup Node, checkout, and install dependencies before configuring the repo
+
 inputs:
   prebuild:
     description: Prebuild configuration
@@ -16,6 +17,7 @@ inputs:
   workspace:
     description: Path to current workspace
     required: true
+
 runs:
   using: composite
   steps:
