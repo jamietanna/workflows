@@ -64,8 +64,9 @@ try {
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
     allVersions = versioning[versioningSystem].all
-    core.exportVariable('VERSIONS', allVersions)
     if (allVersions.includes(BASE_REF)) {
+      // We need to expose this to the workflow so that the Portal for deploy can know which branches are versions
+      core.exportVariable('VERSIONS', allVersions)
       await syncFiles(contentPath)
     }
   })
