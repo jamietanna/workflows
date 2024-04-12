@@ -40,6 +40,7 @@ runs:
       id: execute-versioning-action
       run: |
         node ./index.js
+        echo "allVersions: $VERSIONS"
         echo "::set-output name=allVersions::$VERSIONS"
       shell: bash
       working-directory: workflows/.github/actions/version-content
