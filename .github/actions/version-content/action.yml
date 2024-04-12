@@ -18,6 +18,11 @@ inputs:
     description: Path to current workspace
     required: true
 
+outputs:
+  versions:
+    description: "JSON string of all versions"
+    value: ${{ steps.<step_id>.outputs.allVersions }}
+
 runs:
   using: composite
   steps:

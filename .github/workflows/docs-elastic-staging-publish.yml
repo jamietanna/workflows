@@ -68,6 +68,7 @@ jobs:
           path: workflows
 
       - name: Insert PR changes into prebuild
+        id: prebuild
         uses: ./workflows/.github/actions/version-content
         with:
           prebuild: ${{ env.PREBUILD }}
@@ -99,7 +100,7 @@ jobs:
       #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
       - name: Portal for deploy
-        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
+        if: github.event.pull_request.merged == true && contains(fromJson(steps.prebuild.outputs.versions), github.event.pull_request.base.ref)
         shell: bash
         run: |
           cd ${{ github.workspace }}/${{ env.PREBUILD }}

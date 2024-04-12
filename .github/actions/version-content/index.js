@@ -48,6 +48,7 @@ const syncFiles = async (contentPath) => {
 
 try {
   let config = {}
+  let allVersions = []
   const configPath = path.resolve(WORKSPACE, SITE_REPO, 'docsmobile.config.js')
 
   if (fs.existsSync(configPath)) {
@@ -62,10 +63,12 @@ try {
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
-    if (versioning[versioningSystem].all.includes(BASE_REF)) {
+    allVersions = versioning[versioningSystem].all
+    if (allVersions.includes(BASE_REF)) {
       await syncFiles(contentPath)
     }
   })
+  core.setOutput('versions', JSON.stringify(allVersions))
 } catch (error) {
   core.setFailed(error.message)
 }
