@@ -21,7 +21,6 @@ const syncFiles = async (contentPath) => {
   // Remove all files in target directory
   shell.rm('-rf', path.join(targetDir, '*'))
 
-  // Define rsync command
   const rsyncCommand =
     `rsync --ignore-missing-args -zavpm --no-l ` +
     `--exclude='cats.mdx' ` +
@@ -41,7 +40,6 @@ const syncFiles = async (contentPath) => {
     `"${sourceDir}/" ` +
     `"${targetDir}/"`
 
-  // Execute rsync
   if (shell.exec(rsyncCommand).code !== 0) {
     shell.echo('Error: Rsync failed')
     shell.exit(1)
