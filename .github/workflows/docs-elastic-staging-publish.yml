@@ -99,6 +99,9 @@ jobs:
       #     github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
       #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
+      - name: Log allVersions output
+        run: echo "${{ steps.prebuild.outputs.versions }}"
+
       - name: Portal for deploy
         if: github.event.pull_request.merged == true && contains(fromJson(steps.prebuild.outputs.versions), github.event.pull_request.base.ref)
         shell: bash
