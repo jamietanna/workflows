@@ -1,5 +1,5 @@
 const core = require('@actions/core')
-const fs = require('fs-extra')
+const fs = require('fs')
 const shell = require('shelljs')
 const path = require('path')
 
