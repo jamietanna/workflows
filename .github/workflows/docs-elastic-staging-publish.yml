@@ -86,7 +86,7 @@ jobs:
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
       - name: Log 'versions' output
-        run: echo "${{ steps.prebuild.outputs.versions2 }}"
+        run: echo "foo-${{ steps.prebuild.outputs.versions2 }}"
 
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
