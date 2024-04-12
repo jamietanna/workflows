@@ -61,7 +61,7 @@ try {
 
   const { sources, versioning } = config
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
-  core.setOutput('versions', 'JSON.stringify(allVersions)')
+  core.setOutput('versions', '["main", "1.0.0"]')
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
     allVersions = versioning[versioningSystem].all
