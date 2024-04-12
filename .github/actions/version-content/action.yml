@@ -19,9 +19,9 @@ inputs:
     required: true
 
 outputs:
-  versions:
-    description: "JSON string of all versions"
-    value: ${{ steps.prebuild.outputs.versions }}
+  allVersions:
+    description: 'Array of all versions'
+    value: ${{ steps.execute-versioning-action.env.ALL_VERSIONS }}
 
 runs:
   using: composite

@@ -68,8 +68,8 @@ jobs:
           path: workflows
 
       - name: Insert PR changes into prebuild
-        id: prebuild
         uses: ./workflows/.github/actions/version-content
+        id: execute-versioning-action
         with:
           prebuild: ${{ env.PREBUILD }}
           site-repo: ${{ env.SITE_REPO }}
@@ -85,9 +85,6 @@ jobs:
             mv ${{ github.workspace }}/${{ env.PREBUILD }} ${{ github.workspace }}/build/
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
-      - name: Log 'versions' output
-        run: echo "${{ steps.prebuild.outputs.versions }}"
-
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
       #   id: vercel-deploy
@@ -102,8 +99,12 @@ jobs:
       #     github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
       #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
+
+      - name: Log allVersions output
+        run: echo "${{ steps.execute-versioning-action.outputs.allVersions }}"
+
       - name: Portal for deploy
-        if: github.event.pull_request.merged == true && contains(fromJson(steps.prebuild.outputs.versions), github.event.pull_request.base.ref)
+        if: github.event.pull_request.merged == true && contains(fromJson('${{ steps.execute-versioning-action.outputs.allVersions }}'), github.event.pull_request.base.ref)
         shell: bash
         run: |
           cd ${{ github.workspace }}/${{ env.PREBUILD }}

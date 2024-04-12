@@ -4,6 +4,7 @@ const shell = require('shelljs')
 const path = require('path')
 
 const { PREBUILD, SITE_REPO, CONTENT_REPO, BASE_REF, WORKSPACE } = process.env
+let allVersions = []
 
 const syncFiles = async (contentPath) => {
   const targetDir = path.join(
@@ -48,7 +49,6 @@ const syncFiles = async (contentPath) => {
 
 try {
   let config = {}
-  let allVersions = []
   const configPath = path.resolve(WORKSPACE, SITE_REPO, 'docsmobile.config.js')
 
   if (fs.existsSync(configPath)) {
@@ -61,15 +61,15 @@ try {
 
   const { sources, versioning } = config
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
-  core.setOutput('versions', 'JSON.stringify(allVersions)')
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
-    allVersions = versioning[versioningSystem].all
-    console.log('allVersions', allVersions)
-    if (allVersions.includes(BASE_REF)) {
+    if (versioning[versioningSystem].all.includes(BASE_REF)) {
       await syncFiles(contentPath)
+      allVersions = versioning[versioningSystem].all
     }
   })
 } catch (error) {
   core.setFailed(error.message)
 }
+
+process.env.ALL_VERSIONS = JSON.stringify(allVersions)
