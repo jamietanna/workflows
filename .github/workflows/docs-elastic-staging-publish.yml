@@ -23,6 +23,7 @@ jobs:
     env:
       SITE_REPO: docs-staging.elastic.dev
       PREBUILD: wordlake-staging
+      envVar: null
     steps:
 
       - name: Setup workspace
@@ -86,7 +87,7 @@ jobs:
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
       - name: Log 'versions' output
-        run: echo "foo-${{ steps.prebuild.outputs.versions }}"
+        run: echo "foo-${{ env.envVar }}"
 
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
