@@ -87,7 +87,7 @@ jobs:
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
       - name: Log 'versions' output
-        run: echo "foo-${{ env.VERSIONS }}"
+        run: echo "foo-${{contains(fromJson(env.VERSIONS), github.event.pull_request.base.ref) }}"
 
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
@@ -104,7 +104,7 @@ jobs:
       #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
       - name: Portal for deploy
-        if: github.event.pull_request.merged == true && contains(fromJson(steps.prebuild.outputs.versions), github.event.pull_request.base.ref)
+        if: github.event.pull_request.merged == true && contains(fromJson(env.VERSIONS), github.event.pull_request.base.ref)
         shell: bash
         run: |
           cd ${{ github.workspace }}/${{ env.PREBUILD }}
