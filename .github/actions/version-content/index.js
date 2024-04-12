@@ -5,9 +5,9 @@ const path = require('path')
 
 const { PREBUILD, SITE_REPO, CONTENT_REPO, BASE_REF, WORKSPACE } = process.env
 
-const syncFiles = async (path) => {
-  const targetDir = path.join(WORKSPACE, PREBUILD, CONTENT_REPO, BASE_REF, path)
-  const sourceDir = path.join(WORKSPACE, 'tmp', path)
+const syncFiles = async (contentPath) => {
+  const targetDir = path.join(WORKSPACE, PREBUILD, CONTENT_REPO, BASE_REF, contentPath)
+  const sourceDir = path.join(WORKSPACE, 'tmp', contentPath)
 
   const patterns = {
     include: [
@@ -71,9 +71,9 @@ try {
   const { sources, versioning } = config
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
 
-  directories.forEach(async ({ versioningSystem, path }) => {
+  directories.forEach(async ({ versioningSystem, path: contentPath }) => {
     if (versioning[versioningSystem].all.includes(BASE_REF)) {
-      await syncFiles(path)
+      await syncFiles(contentPath)
     }
   })
 } catch (error) {
