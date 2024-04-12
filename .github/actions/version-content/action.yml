@@ -24,7 +24,7 @@ outputs:
     value: ${{ steps.prebuild.outputs.versions }}
   versions2:
     description: "JSON string of all versions"
-    value: ${{ steps.prebuild.env.prebuild }}
+    value: ${{ steps.execute.env.prebuild }}
 
 runs:
   using: composite
@@ -41,6 +41,7 @@ runs:
 
     - name: Execute versioning action
       run: node ./index.js
+      id: execute
       shell: bash
       working-directory: workflows/.github/actions/version-content
       env:
