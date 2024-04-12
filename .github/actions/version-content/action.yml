@@ -37,11 +37,7 @@ runs:
       working-directory: workflows/.github/actions/version-content
 
     - name: Execute versioning action
-      id: execute-versioning-action
-      run: |
-        node ./index.js
-        echo "allVersions: $VERSIONS"
-        echo "::set-output name=allVersions::$VERSIONS"
+      run: node ./index.js
       shell: bash
       working-directory: workflows/.github/actions/version-content
       env:
@@ -50,4 +46,3 @@ runs:
         CONTENT_REPO: ${{ inputs.content-repo }}
         BASE_REF: ${{ inputs.base-ref }}
         WORKSPACE: ${{ inputs.workspace }}
-        VERSIONS: ${{ toJson(allVersions) }}

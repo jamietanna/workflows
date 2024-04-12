@@ -73,3 +73,5 @@ try {
 } catch (error) {
   core.setFailed(error.message)
 }
+
+process.env.ALL_VERSIONS = JSON.stringify(allVersions)
