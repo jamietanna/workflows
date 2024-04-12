@@ -85,6 +85,9 @@ jobs:
             mv ${{ github.workspace }}/${{ env.PREBUILD }} ${{ github.workspace }}/build/
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
+      - name: Log 'versions' output
+        run: echo "${{ steps.prebuild.outputs.versions }}"
+
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
       #   id: vercel-deploy
@@ -98,9 +101,6 @@ jobs:
       #     working-directory: ${{ github.workspace }}/build/
       #     github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
       #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
-
-      - name: Log allVersions output
-        run: echo "${{ steps.prebuild.outputs.versions }}"
 
       - name: Portal for deploy
         if: github.event.pull_request.merged == true && contains(fromJson(steps.prebuild.outputs.versions), github.event.pull_request.base.ref)
