@@ -22,6 +22,9 @@ outputs:
   versions:
     description: "JSON string of all versions"
     value: ${{ steps.prebuild.outputs.versions }}
+  versions2:
+    description: "JSON string of all versions"
+    value: ${{ steps.prebuild.env.prebuild }}
 
 runs:
   using: composite
