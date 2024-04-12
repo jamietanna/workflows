@@ -84,19 +84,19 @@ jobs:
             mv ${{ github.workspace }}/${{ env.PREBUILD }} ${{ github.workspace }}/build/
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
-      - name: Generate preview
-        if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
-        id: vercel-deploy
-        uses: elastic/builder@v25.2.0
-        continue-on-error: false
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
-          vercel-project-name: co-preview-docs
-          working-directory: ${{ github.workspace }}/build/
-          github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
-          github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
+      # - name: Generate preview
+      #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
+      #   id: vercel-deploy
+      #   uses: elastic/builder@v25.2.0
+      #   continue-on-error: false
+      #   with:
+      #     vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+      #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
+      #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING_PREVIEW_DOCS }} #Required
+      #     vercel-project-name: co-preview-docs
+      #     working-directory: ${{ github.workspace }}/build/
+      #     github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
+      #     github-comment: true # Otherwise need github-token (VERCEL_GITHUB_TOKEN)
 
       - name: Portal for deploy
         if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == github.event.pull_request.base.repo.default_branch
