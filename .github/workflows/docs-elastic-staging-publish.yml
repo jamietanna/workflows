@@ -86,9 +86,6 @@ jobs:
             mv ${{ github.workspace }}/${{ env.PREBUILD }} ${{ github.workspace }}/build/
             mv ${{ github.workspace }}/${{ env.SITE_REPO }} ${{ github.workspace }}/build/
 
-      - name: Log 'versions' output
-        run: echo "foo-${{contains(fromJson(env.VERSIONS), github.event.pull_request.base.ref) }}"
-
       # - name: Generate preview
       #   if: github.event.pull_request.merged != true && github.event.pull_request.closed != true
       #   id: vercel-deploy

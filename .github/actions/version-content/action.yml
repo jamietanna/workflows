@@ -18,10 +18,6 @@ inputs:
     description: Path to current workspace
     required: true
 
-outputs:
-  versions:
-    description: "JSON string of all versions"
-
 runs:
   using: composite
   steps:
