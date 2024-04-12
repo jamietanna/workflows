@@ -1,58 +1,50 @@
 const core = require('@actions/core')
 const fs = require('fs-extra')
-const glob = require('glob')
+const shell = require('shelljs')
 const path = require('path')
 
 const { PREBUILD, SITE_REPO, CONTENT_REPO, BASE_REF, WORKSPACE } = process.env
 
 const syncFiles = async (contentPath) => {
-  const targetDir = path.join(WORKSPACE, PREBUILD, CONTENT_REPO, BASE_REF, contentPath)
+  const targetDir = path.join(
+    WORKSPACE,
+    PREBUILD,
+    CONTENT_REPO,
+    BASE_REF,
+    contentPath
+  )
   const sourceDir = path.join(WORKSPACE, 'tmp', contentPath)
 
-  const patterns = {
-    include: [
-      '*.docnav.json',
-      '*.apidocs.json',
-      '*.mdx',
-      '*.png',
-      '*.gif',
-      '*.jpg',
-      '*.svg',
-      '*.jpeg',
-      '*.webp',
-      '*.devdocs.json',
-      '*/',
-    ],
-    exclude: ['cats.mdx', 'infrastructure/ansible/systests/*'],
-  }
+  // Create target directory if it doesn't exist
+  shell.mkdir('-p', targetDir)
 
-  // Ensure target directory exists
-  await fs.ensureDir(targetDir)
+  // Remove all files in target directory
+  shell.rm('-rf', path.join(targetDir, '*'))
 
-  // Clear target directory
-  await fs.emptyDir(targetDir)
+  // Define rsync command
+  const rsyncCommand =
+    `rsync --ignore-missing-args -zavpm --no-l ` +
+    `--exclude='cats.mdx' ` +
+    `--exclude='infrastructure/ansible/systests/*' ` +
+    `--include='*.docnav.json' ` +
+    `--include='*.apidocs.json' ` +
+    `--include='*.mdx' ` +
+    `--include='*.png' ` +
+    `--include='*.gif' ` +
+    `--include='*.jpg' ` +
+    `--include='*.svg' ` +
+    `--include='*.jpeg' ` +
+    `--include='*.webp' ` +
+    `--include='*.devdocs.json' ` +
+    `--include='*/' ` +
+    `--exclude='*' ` +
+    `"${sourceDir}/" ` +
+    `"${targetDir}/"`
 
-  // Process each pattern
-  for (const pattern of patterns.include) {
-    // Generate glob pattern
-    const files = glob.sync(path.join(sourceDir, pattern), { nodir: true })
-
-    for (const file of files) {
-      const targetFilePath = path.join(
-        targetDir,
-        path.relative(sourceDir, file)
-      )
-      await fs.ensureDir(path.dirname(targetFilePath)) // Ensure directory exists
-      await fs.copy(file, targetFilePath) // Copy file
-    }
-  }
-
-  // Handle exclusions after all files are copied
-  for (const pattern of patterns.exclude) {
-    const files = glob.sync(path.join(targetDir, pattern), { nodir: true })
-    for (const file of files) {
-      await fs.remove(file) // Remove excluded files
-    }
+  // Execute rsync
+  if (shell.exec(rsyncCommand).code !== 0) {
+    shell.echo('Error: Rsync failed')
+    shell.exit(1)
   }
 }
 
