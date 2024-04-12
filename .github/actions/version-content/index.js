@@ -61,11 +61,11 @@ try {
 
   const { sources, versioning } = config
   const { directories } = sources.find(({ repo }) => repo === CONTENT_REPO)
+  core.setOutput('versions', 'JSON.stringify(allVersions)')
 
   directories.forEach(async ({ versioningSystem, path: contentPath }) => {
     allVersions = versioning[versioningSystem].all
     console.log('allVersions', allVersions)
-    core.setOutput('versions', 'JSON.stringify(allVersions)')
     if (allVersions.includes(BASE_REF)) {
       await syncFiles(contentPath)
     }
