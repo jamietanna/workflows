@@ -13,6 +13,8 @@ const syncFiles = async (contentPath) => {
     BASE_REF,
     contentPath
   )
+  console.log('CONTENT_REPO', CONTENT_REPO)
+  console.log('targetDir', targetDir)
   const sourceDir = path.join(WORKSPACE, 'tmp', contentPath)
 
   // Create target directory if it doesn't exist
