@@ -6,15 +6,14 @@ const path = require('path')
 const { PREBUILD, SITE_REPO, CONTENT_REPO, BASE_REF, WORKSPACE } = process.env
 
 const syncFiles = async (contentPath) => {
+  const [, filePath] = CONTENT_REPO.split('/')
   const targetDir = path.join(
     WORKSPACE,
     PREBUILD,
-    CONTENT_REPO,
+    filePath,
     BASE_REF,
     contentPath
   )
-  console.log('CONTENT_REPO', CONTENT_REPO)
-  console.log('targetDir', targetDir)
   const sourceDir = path.join(WORKSPACE, 'tmp', contentPath)
 
   // Create target directory if it doesn't exist
